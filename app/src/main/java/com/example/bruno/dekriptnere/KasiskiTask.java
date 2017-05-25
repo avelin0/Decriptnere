@@ -17,7 +17,7 @@ public class KasiskiTask extends AsyncTask<Void,Void,Void>{
     private int keyLength = 0;
     private List<Dictionaries> languages;
     private List<List<Float>> matrixHistogramShifted = new ArrayList<List<Float>>();
-//    a mais
+
     private AvelinoInterface activity;
 
     public KasiskiTask(String cipher, List<Dictionaries> languages, AvelinoInterface activity) {
@@ -37,10 +37,9 @@ public class KasiskiTask extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        activity.preencherTela(this);
+        activity.fillScreenWithThread(this);
     }
 
-//    ate aqui
 
     public String getKey() {
         return key;

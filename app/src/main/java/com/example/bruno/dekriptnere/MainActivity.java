@@ -1,11 +1,9 @@
 package com.example.bruno.dekriptnere;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -25,17 +23,21 @@ public class MainActivity extends AppCompatActivity implements AvelinoInterface 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Button buttonAnalyze = (Button) findViewById(R.id.lButtonAnalize);
-//        buttonAnalyze.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    Analyse(v);
-//                } catch (IOException | ExecutionException | InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        Button buttonAnalyze = (Button) findViewById(R.id.lButtonAnalize);
+        buttonAnalyze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Switch sw = (Switch) findViewById(R.id.switch1);
+                Boolean switchState = sw.isChecked();
+                Toast.makeText(getApplicationContext(), switchState.toString(), Toast.LENGTH_SHORT).show();
+
+                try {
+                    Analyse(v, switchState);
+                } catch (IOException | ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
         try {
@@ -47,14 +49,54 @@ public class MainActivity extends AppCompatActivity implements AvelinoInterface 
         }
     }
 
-    public void Analyse(View view) throws IOException, ExecutionException, InterruptedException {
+    public void Analyse(View view, Boolean switchState) throws IOException, ExecutionException, InterruptedException {
 
-//        input
-        Switch sw = (Switch) findViewById(R.id.switch1);
+        String defaultCipher = "tzozpkswtfpdbrsjvnasqewfovptzsgnbqyvvcspmmlspsdpkknoypozpnohezy" +
+                "vghuozzdhvzjovbohjaojbtostfbpenolbifzfvcsqmxwzohxpvgzdlzylsngftjkocqsjvxxjuo" +
+                "mrjbetzxllseqljzklfzjdpsdpkknoypbgoboyodgohsqmwmnzyrzvvbofcwcnkqddkbveszfpbw" +
+                "ilffbcoevoeqsbtyjohsmoaefoirgqyoypbgomwltvgyhsqgarqhvcgoovppvjvwsidygisdunsy" +
+                "mueoucgzppozpuwwslfvmlzylsnrqccpzgdtzuluzuofkbvemiveqsugwpdbrmiveqsczjpdbriz" +
+                "jpcvuqatnhomtypwsitkcirrayklrrbplvcscqwwlowhxsozbeuilsnayokvjtetzolcshdspyzp" +
+                "fdlorjyowvcshmowcbthzevcshmowcbuuywudglzyyzmaqowvcsqumelvsdespyrthdvpmhxpoco" +
+                "scerztlvmpjgpboqmlsntycechsyfajzvhxpocoscerztlvmpjgvpzhzlsntycechsyfvforhmlk" +
+                "ujupzzktbodoyqyqlxgwocvuqathoxqilsnolpfciretzwgnbyyyciretzezabyyyyzfpfcwdnqe" +
+                "yvfvmrqiwdrgqyvijrdmdvwnhjswyvhpdnmymshezgcslhzfmnuqezgmsofjypcvucmpoczzzhwj" +
+                "qulffgsefcwoamblffvdaqvjlwryeocngzszfpbwilffbcoovdwnrjswfmmwmivpjfjsspyhsqbs" +
+                "eqshtfiocrqozpacvezgroeqmknjzbpvjzgpmnsymueokcrhsmoaefoirgqyupzzktbodoyqyglu" +
+                "ydpchxpwcmhsnmayptecljbflenlsnvuctadswpdfrbsuospyhsqajfrhjcwgtwpxyaypthfavvt" +
+                "eqmztbyyyvyccdqnwpmwitfkogpxamaxbjswgvfetvforhmlkujupzzktbodoljzsldozmackrzv" +
+                "accfcycjgilffcscntapuryyyuzsomalpavydckirlzylsnhhpwadswpdfrofktlyccdqnwpmkqd" +
+                "apdhdqgxlohuczknytzysymueokcrhsmoaefoirgqyupzzktbodoljzsgqiaypodoljzazdiaypk" +
+                "ucwvcsetdjomoorwpzgtevfopctdskyzpfozpasrpdkbveedfeqsvtjovapzogqcvuswcqsyfjvt" +
+                "ewtpljzrlkajzvhxpfkbvemivwnhjswowsqamktpbilffaccezsdxbilffaccpvqdjbtjwcmgrqi" +
+                "wdrgqyvnzhetzemntecdkbveedfeqsvtjovapzogqcvuswcqsyfjytesbtyjoiaailsnsqcljvbo" +
+                "uoolbgerwpzgtevfopctxsfzhhabjpjhbtyjogetzycnojpjndusfogcdzuezgyojmiveqsbpkuz" +
+                "fwubzecchfdgovpzdyscvuxsfzhsqnllagqwkqbsyqnadjbtrgfnsefcwxrbjswhdfxmhwyccvez" +
+                "gcslhzfexuygwndusfphzwhxpwcmhsszfpbwilffoccggwzeshezgyojmivzeshezgiwrtosymhe" +
+                "oaxdrpfcwwruxextjaetzvlaydpkuvbosjvdjkjssvdhhmnyzxrwpfgnwdmiveqsugwpdbrmiveq" +
+                "sczjpdbrizjpcvuqgwmhspvqrnbudauvbosjvdjwtwwvovpivlpagrcapbtzdozlkidospozjfcw" +
+                "xxjyyyemslfpjpcvqezcovwuawlwrvzonovlfhsjozoltqqsetzwlahxtfvcszbzfqrfclegihzr" +
+                "cwlesdrwpzgtevfopctnjgvhppbjpjhmssnzglzywgnfowaxdbromwlcihpljvhxaqweqkxtujov" +
+                "pivlpagrcgwbverjjeqorfffvbextsqcshezgdfvuivlwrugwttktzbwoocmwshosctdkvrbtlff" +
+                "bcoevoeqojtlyvgrajvrnbudauvbosjvmusidwfovpynsjrbwmwhmitfamwjbtxmnowaxtsymtyw" +
+                "dvcshmowcbwdezgnslevfousjqgygafxoaaumyyljzsldozrnbudauvbofcwpesdtfivbofcwxxf" +
+                "dtfirscqozpowvezfvmrqiwdrgqyvijrdmdvwnhjswgvfetwjtwuvzjvchsqgagrbwnjgvhfdzsq" +
+                "cshsaufwypxseczulffxfpqkayphxtfivbonzsdccvezgzocfcsqcshsaufwypvforhmlkujupzz" +
+                "ktbodoyqyalpzlsnpulkvjtetzwlahxlxvzfsunctwrqyvevhexzsqcshezgdfvuivlwrugwtths" +
+                "uiyeqojnjgzdpfcmaxbjswgvfetvxenfxtkmdbomivrxrilovcoeuoolbuezvizbpedklwrwzvuv" +
+                "woxzlfbaqvwovbtzjmcraqrwcahpdjmcuwapfgnglzydpchxpejvjppjetwweygxzfetzxtbveql" +
+                "jzgpmvfoxjucljztziggqcvulatvboaqwccvunsvozpmivzeshldnovpqvjeqodogxzfphzjjlfu" +
+                "phkiuetdfrcvqeutzsaqozfycdezgzocfcypwsitkujuzpxjpjhuoeciwytdkzfbyxsizwyfcwtv" +
+                "owpghbcoomwlcstswjdaxmgwlwrvpecgsndzsenrxpljzarqiwdrgqyvijrmxzkdnrjswovbosjv" +
+                "djwtffvjhsqhtpofktlhpzlzyefuhyadavbodzhwnbydzvcspmmlsjbtdmdyipuosymvqgwfjatz" +
+                "dgyxjucljzttecgqcvudwcvboaqwccvuqgygcqfcwlrfqyvqqscqqwchzygapbhsuiyeqojxgxzh" +
+                "sgkgycvupstovrqiwdrgqyvijrdmdvmnvewvkcogqbagnbozmgqsckcwckpuljkiudqzvhqwssau" +
+                "pdzzozpoospghvzwfcwpjfjsspysgqmqojbtrgfnohfcs";
 
         EditText lCipherText = (EditText) findViewById(R.id.lCipher);
 
         KasiskiTask criptTask;
+        Kasiski cript;
 
 //        Input -> somente letras sem numeros de comprimento >= 13
         String cipher = lCipherText.getText().toString();
@@ -63,56 +105,41 @@ public class MainActivity extends AppCompatActivity implements AvelinoInterface 
 
         switch (validCipher) {
             case "Valid" :
-                criptTask = new KasiskiTask( cipher.toUpperCase(), this.listOfLanguages, this);
-                criptTask.execute();
+                if (switchState) {
+                    criptTask = new KasiskiTask(cipher.toUpperCase(), this.listOfLanguages, this);
+                    criptTask.execute();
+                } else {
+                    cript = new Kasiski(cipher.toUpperCase(), this.listOfLanguages);
+                    fillScreenWithoutThread(cript);
+                }
+
                 break;
             default:
-                criptTask = new KasiskiTask(("tzozpkswtfpdbrsjvnasqewfovptzsgnbqyvvcspmmlspsdpkknoypozpnohezy" +
-                        "vghuozzdhvzjovbohjaojbtostfbpenolbifzfvcsqmxwzohxpvgzdlzylsngftjkocqsjvxxjuo" +
-                        "mrjbetzxllseqljzklfzjdpsdpkknoypbgoboyodgohsqmwmnzyrzvvbofcwcnkqddkbveszfpbw" +
-                        "ilffbcoevoeqsbtyjohsmoaefoirgqyoypbgomwltvgyhsqgarqhvcgoovppvjvwsidygisdunsy" +
-                        "mueoucgzppozpuwwslfvmlzylsnrqccpzgdtzuluzuofkbvemiveqsugwpdbrmiveqsczjpdbriz" +
-                        "jpcvuqatnhomtypwsitkcirrayklrrbplvcscqwwlowhxsozbeuilsnayokvjtetzolcshdspyzp" +
-                        "fdlorjyowvcshmowcbthzevcshmowcbuuywudglzyyzmaqowvcsqumelvsdespyrthdvpmhxpoco" +
-                        "scerztlvmpjgpboqmlsntycechsyfajzvhxpocoscerztlvmpjgvpzhzlsntycechsyfvforhmlk" +
-                        "ujupzzktbodoyqyqlxgwocvuqathoxqilsnolpfciretzwgnbyyyciretzezabyyyyzfpfcwdnqe" +
-                        "yvfvmrqiwdrgqyvijrdmdvwnhjswyvhpdnmymshezgcslhzfmnuqezgmsofjypcvucmpoczzzhwj" +
-                        "qulffgsefcwoamblffvdaqvjlwryeocngzszfpbwilffbcoovdwnrjswfmmwmivpjfjsspyhsqbs" +
-                        "eqshtfiocrqozpacvezgroeqmknjzbpvjzgpmnsymueokcrhsmoaefoirgqyupzzktbodoyqyglu" +
-                        "ydpchxpwcmhsnmayptecljbflenlsnvuctadswpdfrbsuospyhsqajfrhjcwgtwpxyaypthfavvt" +
-                        "eqmztbyyyvyccdqnwpmwitfkogpxamaxbjswgvfetvforhmlkujupzzktbodoljzsldozmackrzv" +
-                        "accfcycjgilffcscntapuryyyuzsomalpavydckirlzylsnhhpwadswpdfrofktlyccdqnwpmkqd" +
-                        "apdhdqgxlohuczknytzysymueokcrhsmoaefoirgqyupzzktbodoljzsgqiaypodoljzazdiaypk" +
-                        "ucwvcsetdjomoorwpzgtevfopctdskyzpfozpasrpdkbveedfeqsvtjovapzogqcvuswcqsyfjvt" +
-                        "ewtpljzrlkajzvhxpfkbvemivwnhjswowsqamktpbilffaccezsdxbilffaccpvqdjbtjwcmgrqi" +
-                        "wdrgqyvnzhetzemntecdkbveedfeqsvtjovapzogqcvuswcqsyfjytesbtyjoiaailsnsqcljvbo" +
-                        "uoolbgerwpzgtevfopctxsfzhhabjpjhbtyjogetzycnojpjndusfogcdzuezgyojmiveqsbpkuz" +
-                        "fwubzecchfdgovpzdyscvuxsfzhsqnllagqwkqbsyqnadjbtrgfnsefcwxrbjswhdfxmhwyccvez" +
-                        "gcslhzfexuygwndusfphzwhxpwcmhsszfpbwilffoccggwzeshezgyojmivzeshezgiwrtosymhe" +
-                        "oaxdrpfcwwruxextjaetzvlaydpkuvbosjvdjkjssvdhhmnyzxrwpfgnwdmiveqsugwpdbrmiveq" +
-                        "sczjpdbrizjpcvuqgwmhspvqrnbudauvbosjvdjwtwwvovpivlpagrcapbtzdozlkidospozjfcw" +
-                        "xxjyyyemslfpjpcvqezcovwuawlwrvzonovlfhsjozoltqqsetzwlahxtfvcszbzfqrfclegihzr" +
-                        "cwlesdrwpzgtevfopctnjgvhppbjpjhmssnzglzywgnfowaxdbromwlcihpljvhxaqweqkxtujov" +
-                        "pivlpagrcgwbverjjeqorfffvbextsqcshezgdfvuivlwrugwttktzbwoocmwshosctdkvrbtlff" +
-                        "bcoevoeqojtlyvgrajvrnbudauvbosjvmusidwfovpynsjrbwmwhmitfamwjbtxmnowaxtsymtyw" +
-                        "dvcshmowcbwdezgnslevfousjqgygafxoaaumyyljzsldozrnbudauvbofcwpesdtfivbofcwxxf" +
-                        "dtfirscqozpowvezfvmrqiwdrgqyvijrdmdvwnhjswgvfetwjtwuvzjvchsqgagrbwnjgvhfdzsq" +
-                        "cshsaufwypxseczulffxfpqkayphxtfivbonzsdccvezgzocfcsqcshsaufwypvforhmlkujupzz" +
-                        "ktbodoyqyalpzlsnpulkvjtetzwlahxlxvzfsunctwrqyvevhexzsqcshezgdfvuivlwrugwtths" +
-                        "uiyeqojnjgzdpfcmaxbjswgvfetvxenfxtkmdbomivrxrilovcoeuoolbuezvizbpedklwrwzvuv" +
-                        "woxzlfbaqvwovbtzjmcraqrwcahpdjmcuwapfgnglzydpchxpejvjppjetwweygxzfetzxtbveql" +
-                        "jzgpmvfoxjucljztziggqcvulatvboaqwccvunsvozpmivzeshldnovpqvjeqodogxzfphzjjlfu" +
-                        "phkiuetdfrcvqeutzsaqozfycdezgzocfcypwsitkujuzpxjpjhuoeciwytdkzfbyxsizwyfcwtv" +
-                        "owpghbcoomwlcstswjdaxmgwlwrvpecgsndzsenrxpljzarqiwdrgqyvijrmxzkdnrjswovbosjv" +
-                        "djwtffvjhsqhtpofktlhpzlzyefuhyadavbodzhwnbydzvcspmmlsjbtdmdyipuosymvqgwfjatz" +
-                        "dgyxjucljzttecgqcvudwcvboaqwccvuqgygcqfcwlrfqyvqqscqqwchzygapbhsuiyeqojxgxzh" +
-                        "sgkgycvupstovrqiwdrgqyvijrdmdvmnvewvkcogqbagnbozmgqsckcwckpuljkiudqzvhqwssau" +
-                        "pdzzozpoospghvzwfcwpjfjsspysgqmqojbtrgfnohfcs").toUpperCase(), this.listOfLanguages,this);
-                criptTask.execute();
+                if (switchState) {
+                    criptTask = new KasiskiTask((defaultCipher).toUpperCase(), this.listOfLanguages, this);
+                    criptTask.execute();
+                } else {
+                    cript = new Kasiski(defaultCipher.toUpperCase(), this.listOfLanguages);
+                    fillScreenWithoutThread(cript);
+                }
+
         }
     }
 
-    public Void preencherTela(KasiskiTask cript) {
+    public Void fillScreenWithoutThread(Kasiski cript) {
+        TextView lKeySizeText = (TextView) findViewById(R.id.lKeySize);
+        TextView lLanguageText = (TextView) findViewById(R.id.lLang);
+        TextView lKeyText = (TextView) findViewById(R.id.lKey);
+        TextView lPlainText = (TextView) findViewById(R.id.lPlainText);
+
+        lKeySizeText.setText(Integer.toString(cript.getKeyLength()));
+        lKeyText.setText(cript.getKey());
+        lLanguageText.setText(cript.getCriptoLanguage());
+        lPlainText.setText(cript.getPlainText());
+        return null;
+    }
+
+    public Void fillScreenWithThread(KasiskiTask cript) {
         TextView lKeySizeText = (TextView) findViewById(R.id.lKeySize);
         TextView lLanguageText = (TextView) findViewById(R.id.lLang);
         TextView lKeyText = (TextView) findViewById(R.id.lKey);

@@ -5,5 +5,5 @@ package com.example.bruno.dekriptnere;
  */
 
 public interface AvelinoInterface {
-    public Void preencherTela(KasiskiTask cript);
+    public Void fillScreenWithThread(KasiskiTask cript);
 }

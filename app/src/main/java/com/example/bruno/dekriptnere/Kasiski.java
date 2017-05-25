@@ -128,8 +128,6 @@ public class Kasiski {
         }
     }
 
-
-
 //tools
     private List<Integer> getListOfIndexesOfSubstring(int indexBeginning, int indexOffset) {
         //        get a substring between indexBeginning and indexEnd from cipher

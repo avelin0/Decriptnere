@@ -23,7 +23,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:text="INPUT (0 para criptografia default do EAD):"
+                android:text="INPUT:"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="14sp"

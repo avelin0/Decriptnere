@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Created by bruno on 10/05/17.
+ */
 public class MainActivity extends AppCompatActivity implements AvelinoInterface {
 
     ReadFile files;
@@ -29,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements AvelinoInterface 
             public void onClick(View v) {
                 Switch sw = (Switch) findViewById(R.id.switch1);
                 Boolean switchState = sw.isChecked();
-                Toast.makeText(getApplicationContext(), switchState.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), switchState.toString(), Toast.LENGTH_SHORT);
+
 
                 try {
                     Analyse(v, switchState);
@@ -108,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements AvelinoInterface 
                 if (switchState) {
                     criptTask = new KasiskiTask(cipher.toUpperCase(), this.listOfLanguages, this);
                     criptTask.execute();
+                    fillScreenWithThread(criptTask);
                 } else {
                     cript = new Kasiski(cipher.toUpperCase(), this.listOfLanguages);
                     fillScreenWithoutThread(cript);
@@ -118,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements AvelinoInterface 
                 if (switchState) {
                     criptTask = new KasiskiTask((defaultCipher).toUpperCase(), this.listOfLanguages, this);
                     criptTask.execute();
+                    fillScreenWithThread(criptTask);
                 } else {
                     cript = new Kasiski(defaultCipher.toUpperCase(), this.listOfLanguages);
                     fillScreenWithoutThread(cript);

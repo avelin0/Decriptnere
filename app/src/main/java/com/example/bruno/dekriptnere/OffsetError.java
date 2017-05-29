@@ -1,5 +1,9 @@
 package com.example.bruno.dekriptnere;
 
+/**
+ * Created by bruno on 10/05/17.
+ */
+
 public class OffsetError {
     private int mOffset;
     private float mError;

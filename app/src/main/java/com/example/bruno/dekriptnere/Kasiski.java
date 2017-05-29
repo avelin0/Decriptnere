@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by vinivice on 18/04/2017.
+ * Created by bruno on 10/05/17.
  */
 
 public class Kasiski {
@@ -48,7 +48,6 @@ public class Kasiski {
 //        list of differences between indexes
         List<Integer> nListOfDifferenceBetweenIndexes = new ArrayList<Integer>();
 
-        //TODO: CAN ADD THREADS HERE
 //        The key length was limited
         for (tempKeyLength = 3; tempKeyLength <= 21; tempKeyLength++) {
             for (i = 0; i <= this.cipher.length() - tempKeyLength; i++) {
@@ -61,7 +60,6 @@ public class Kasiski {
             }
         }
 
-//        TODO:  do a function here
         int temp = nListOfOptions[1];
         int kenLength = 2;
         for ( i = 2; i <= 20; i++){
@@ -70,7 +68,6 @@ public class Kasiski {
                 kenLength = i;
             }
         }
-//        TODO: get here?
         this.keyLength = kenLength;
 
     }
@@ -90,15 +87,12 @@ public class Kasiski {
             matrixOffsetError.add(new ArrayList<OffsetError>());
         }
 
-        //TODO: THREAD HERE??
 //        runs through the matrix  to choose the right language
         for(int i = 0; i < this.keyLength; i++) {
             float error = Float.POSITIVE_INFINITY;
             int counter = -1;
-//            TODO: Ver getListOfMinErrorForLanguage
             matrixOffsetError.set(i, getListOfMinErrorForLanguage(languages, i));
 
-//            TODO: understand this loop
             for(int j = 0; j < languages.size(); j++) {
                 if(matrixOffsetError.get(i).get(j).getmError()< error) {
                     error = matrixOffsetError.get(i).get(j).getmError();
@@ -120,7 +114,6 @@ public class Kasiski {
 //        set champion language
         this.CriptoLanguage = languages.get(champion).getLanguage();
 //        fill in string key with key char s
-//        TODO: Thread HERE ??
         for(int i = 0; i < this.keyLength; i++) {
             char elementKeyLetter;
             elementKeyLetter = (char) ('A' + matrixOffsetError.get(i).get(champion).getmOffset());
@@ -186,7 +179,6 @@ public class Kasiski {
         }
 
 //        Count how often appear each letter
-//        TODO: THREAD HERE ?
         if (!((keyLength < 1) || (numberOffset < 0) || (numberOffset >= this.keyLength))) {
             for(int i = 0; (i * this.keyLength + numberOffset) < this.cipher.length(); i++) {
                 mCounter = listLettersQuantity.get(this.cipher.charAt(i * this.keyLength + numberOffset) - 'A');
@@ -205,7 +197,6 @@ public class Kasiski {
     }
 
     private void getHistogramShiftedWithFrequencies() {
-        //TODO: My guess is do not need thread here because we have just 13 assigments, each assigment with an array of length 26 already assigned
         for(int i = 0; i < this.keyLength; i++) {
             this.matrixHistogramShifted.add(this.calculateFrequency(i));
         }
@@ -245,7 +236,6 @@ public class Kasiski {
     private List<OffsetError> getListOfMinErrorForLanguage(List<Dictionaries> langs, int position) {
         List<OffsetError> ListOfMinimumErrorInTheLanguage = new ArrayList<OffsetError>();
 
-//        TODO: THREAD HERE?
         for(Dictionaries iterLanguage : langs) {
             ListOfMinimumErrorInTheLanguage.add(calculateMinimumOffsetError(iterLanguage, position));
         }
@@ -272,7 +262,6 @@ public class Kasiski {
 
     void decriptVigenere() {
         List<String> nPartsCipher = new ArrayList<String>();
-        //TODO: THREADS HERE? I DONT THINK SO. 13*n = O(n)
 //        separate in n-parts of the Kasiski. n is the key length
         for(int i = 0; i < this.keyLength; i++) {
             nPartsCipher.add(decriptCaesar(i));

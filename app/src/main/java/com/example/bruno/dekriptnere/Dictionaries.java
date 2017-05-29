@@ -1,6 +1,9 @@
 package com.example.bruno.dekriptnere;
 
 import java.util.List;
+/**
+ * Created by bruno on 10/05/17.
+ */
 
 public class Dictionaries {
     private String language;

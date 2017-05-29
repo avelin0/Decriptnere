@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by vinivice on 18/04/2017.
+ * Created by bruno on 10/05/17.
  */
 
 public class KasiskiTask extends AsyncTask<Void,Void,Void>{

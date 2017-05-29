@@ -10,7 +10,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: See and change this class
+/**
+ * Created by bruno on 10/05/17.
+ */
+
 public class ReadFile {
     //public File LanguageFile;
     public InputStream LanguageFile;

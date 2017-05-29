@@ -50,28 +50,17 @@ public class Kasiski {
 
         //TODO: CAN ADD THREADS HERE
 //        The key length was limited
-        Thread[] threads = new Thread[19];
         for (tempKeyLength = 3; tempKeyLength <= 21; tempKeyLength++) {
-            threads[tempKeyLength - 3] = new Thread(new EstimateKeySizeTask(tempKeyLength, this.cipher.length(), this, nListOfOptions));
-            threads[tempKeyLength -3].start();
-            /*for (i = 0; i <= this.cipher.length() - tempKeyLength; i++) {
+            for (i = 0; i <= this.cipher.length() - tempKeyLength; i++) {
                 nListOfIndexSubstring = getListOfIndexesOfSubstring(i, tempKeyLength);
                 nListOfDifferenceBetweenIndexes.clear();
                 for (j = 1; j < nListOfIndexSubstring.size(); j++) {
                     nListOfDifferenceBetweenIndexes.add(nListOfIndexSubstring.get(j) - nListOfIndexSubstring.get(j - 1));
                 }
                 nListOfOptions[this.CalculateGdc(nListOfDifferenceBetweenIndexes)]++;
-            }*/
-        }
-        for(i = 0; i < 19; i++){
-            try{
-                threads[i].join();
-            }catch (InterruptedException e){
-                // rezar
-            }catch (Exception e){
-                // reza mais ainda
             }
         }
+
 //        TODO:  do a function here
         int temp = nListOfOptions[1];
         int kenLength = 2;

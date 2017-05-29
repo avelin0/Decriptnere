@@ -61,20 +61,21 @@ public class KasiskiTask extends AsyncTask<Void,Void,Void>{
         int[] nListOfOptions = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         int i, j;
         int tempKeyLength;
-        List<Integer> nListOfIndexSubstring;
-//        list of differences between indexes
-        List<Integer> nListOfDifferenceBetweenIndexes = new ArrayList<Integer>();
-
-
+        
 //        The key length was limited
+        Thread[] threads = new Thread[19];
         for (tempKeyLength = 3; tempKeyLength <= 21; tempKeyLength++) {
-            for (i = 0; i <= this.cipher.length() - tempKeyLength; i++) {
-                nListOfIndexSubstring = getListOfIndexesOfSubstring(i, tempKeyLength);
-                nListOfDifferenceBetweenIndexes.clear();
-                for (j = 1; j < nListOfIndexSubstring.size(); j++) {
-                    nListOfDifferenceBetweenIndexes.add(nListOfIndexSubstring.get(j) - nListOfIndexSubstring.get(j - 1));
-                }
-                nListOfOptions[this.CalculateGdc(nListOfDifferenceBetweenIndexes)]++;
+            threads[tempKeyLength - 3] = new Thread(new EstimateKeySizeTask(tempKeyLength, this.cipher.length(), this, nListOfOptions));
+            threads[tempKeyLength -3].start();
+
+        }
+        for(i = 0; i < 19; i++){
+            try{
+                threads[i].join();
+            }catch (InterruptedException e){
+                // rezar
+            }catch (Exception e){
+                // reza mais ainda
             }
         }
 
@@ -142,7 +143,7 @@ public class KasiskiTask extends AsyncTask<Void,Void,Void>{
     }
 
 //tools
-    private List<Integer> getListOfIndexesOfSubstring(int indexBeginning, int indexOffset) {
+    public List<Integer> getListOfIndexesOfSubstring(int indexBeginning, int indexOffset) {
         //        get a substring between indexBeginning and indexEnd from cipher
         int indexEnd = indexBeginning + indexOffset;
         //        get temporarily the index of the substring in all sentence in each iteration
@@ -158,7 +159,7 @@ public class KasiskiTask extends AsyncTask<Void,Void,Void>{
         return ListOfIndexes;
     }
 
-    private int CalculateGdc(List<Integer> numbers) {
+    public int CalculateGdc(List<Integer> numbers) {
         int numberA, numberB, numberTemp;
 
         if(numbers.size() < 1) {

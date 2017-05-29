@@ -10,9 +10,9 @@ import java.util.List;
 public class EstimateKeySizeTask implements Runnable {
     int tempKeyLength;
     int cipherLength;
-    Kasiski kas;
+    KasiskiTask kas;
     int[] nListOfOptions;
-    public  EstimateKeySizeTask(int tempKeyLength, int cypherLength, Kasiski kas, int[] nListOfOptions){
+    public  EstimateKeySizeTask(int tempKeyLength, int cypherLength, KasiskiTask kas, int[] nListOfOptions){
         this.tempKeyLength = tempKeyLength;
         this.cipherLength = cypherLength;
         this.kas = kas;
